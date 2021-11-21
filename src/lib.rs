@@ -25,10 +25,9 @@ pub fn sql_derive(input: TokenStream) -> TokenStream {
 
         let ty_ident = grab_field_type_ident(ty).unwrap();
 
-        let sql_type = if ty_ident.to_string() == "String" {
-            "text"
-        } else {
-            panic!("Not supported type: {}", ty_ident.to_string())
+        let sql_type = match ty_ident.to_string().as_str() {
+            "String" => "text",
+            _ => panic!("Not supported type: {}", ty_ident.to_string()),
         };
 
         // The last field of a CREATE TABLE query does not have a comma
